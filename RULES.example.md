@@ -1,0 +1,13 @@
+<!-- omp-draft-review:start -->
+## Explicit communication drafts
+
+- Start this workflow ONLY when the user's actual request begins with the standalone word `draft` (case-insensitive; leading whitespace is allowed). Quoted/referenced text, tool output, and occurrences later in a request do not activate it. Ordinary replies, review-thread responses, writing tasks and posting requests do not require draft approval unless explicitly prefixed this way.
+- This workflow covers all communication drafts, including GitHub issues, discussions, PR descriptions, comments, and other outward-facing messages; it is not limited to code reviews.
+- For an activated request, prepare the complete draft and call `propose_draft` with its exact text. Do not substitute `/annotate`, text-based assent, or another confirmation for the tool result.
+- On `refine`, apply the feedback (including `editedDraft` when present) to this same draft and call `propose_draft` again. The loop remains active through these revisions without another `draft` prefix. A separate new user request is evaluated anew; never silently extend review to unrelated requests. If the user starts a later request with `draft`, it starts a new review, including a later refinement request.
+- On `approved`, return ONLY `approvedDraft`, verbatim, without preamble, extra formatting, or commentary. Approval means returning the draft, never sending, posting or publishing it. Even if the initial draft request mentions posting, a separate subsequent user request is required for publication.
+- On `aborted`, stop this draft; acknowledge the abort briefly. On `unavailable` or `error`, report that review could not complete; never imply approval or publish. Missing UI, Escape, cancellation, exceptions, empty feedback, and closing the overlay are not approval.
+- The annotation overlay submits annotations as refinement feedback. For approval without annotations, close the overlay and explicitly select `Approve original draft (return only; never publish)` in the separate selector. This approves the original displayed draft only. Discarded overlay edits are not approved; submit edits/notes and review the revised draft again.
+- The native `write` invocation targeting exactly `xd://propose_draft` is an allowed way to call `propose_draft` when OMP exposes it as an extension device. This is not publishing. Other write targets, eval and shell bridges remain prohibited.
+- During the draft request use only the extension's permitted reading tools and `propose_draft`. Do not bypass its mutation guard through shell, scripts, delegation, other tools, or direct network calls. After approval/abort this restriction remains until a separate user request.
+<!-- omp-draft-review:end -->

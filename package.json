@@ -1,0 +1,20 @@
+{
+  "name": "omp-propose-draft",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Experimental OMP extension for proposing communication drafts with native annotations and explicit approval.",
+  "type": "module",
+  "scripts": {
+    "test": "bun test"
+  },
+  "omp": {
+    "extensions": [
+      "./propose-draft.ts"
+    ]
+  },
+  "files": [
+    "propose-draft.ts",
+    "RULES.example.md",
+    "README.md"
+  ]
+}
